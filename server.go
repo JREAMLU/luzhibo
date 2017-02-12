@@ -194,7 +194,7 @@ func startOrStopTask(i string, m bool) bool {
 }
 
 func startServer(s string) {
-	http.Handle("/", http.FileServer(http.Dir("./"))) // uiHandler{})
+	http.Handle("/", uiHandler{})
 	http.Handle("/ajax", ajaxHandler{})
 	http.ListenAndServe(s, nil)
 }
