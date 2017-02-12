@@ -87,8 +87,8 @@ func (i *downloader) download(url, filepath string) {
 		return
 	}
 	defer f.Close()
+	buf := make([]byte, bytes.MinRead)
 	for i.run {
-		buf := make([]byte, bytes.MinRead)
 		t, err := resp.Body.Read(buf)
 		if err != nil {
 			if err == io.EOF {
