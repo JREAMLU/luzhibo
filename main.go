@@ -1,6 +1,10 @@
 package main
 
+import "fmt"
+
 func main() {
-	go startServer(":12216")
+	s := ":12216"
+	fmt.Printf("正在\"%s\"处监听WebUI...\n", s)
+	go startServer(s)
 	cmd()
 }
