@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"luzhibo/api"
 	"luzhibo/api/getters"
 	"luzhibo/workers"
@@ -70,7 +71,7 @@ func startTask(x int) bool {
 		w, e := v.worker.Restart()
 		if e == nil {
 			tasks[x].worker = w
-			tasks[x].startTime = time.Now()
+			tasks[x].startTime = time.Now().Local()
 			return true
 		}
 	}
@@ -105,7 +106,7 @@ type taskInfo struct {
 	Live      bool
 	M         bool
 	Run       bool
-	EP        bool
+	Files     []string
 	Path      string
 	Index     int64
 	StartTime string
@@ -136,7 +137,7 @@ func getTaskInfo(x int) (o *taskInfo, te int) {
 		o.M = tt == 2
 		o.Run = r
 		o.Path = p
-		o.EP, _ = pathExist(p)
+		o.Files = getFiles(p)
 		o.Index = ind
 		o.LiveInfo = inf
 		if inf == nil {
@@ -144,7 +145,7 @@ func getTaskInfo(x int) (o *taskInfo, te int) {
 		}
 		o.StartTime = v.startTime.Format("2006-01-02:15:04:05")
 		if r {
-			o.TimeLong = timeLongToStr(time.Now().Sub(v.startTime))
+			o.TimeLong = timeLongToStr(time.Now().Local().Sub(v.startTime))
 		}
 	}
 	return
@@ -188,6 +189,29 @@ func pathExist(path string) (bool, bool) {
 		return true, p.IsDir()
 	}
 	return os.IsExist(err), false
+}
+
+func getFiles(path string) []string {
+	l := make([]string, 0)
+	if e, d := pathExist(path); e {
+		if d {
+			files, err := ioutil.ReadDir(path)
+			if err == nil {
+				for _, f := range files {
+					if !f.IsDir() {
+						p := path + "/" + f.Name()
+						l = append(l, p)
+					}
+				}
+			} else {
+				l = nil
+			}
+		} else {
+			l = append(l, path)
+		}
+		return l
+	}
+	return nil
 }
 
 func delPath(path string) {

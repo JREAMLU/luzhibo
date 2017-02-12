@@ -15,6 +15,7 @@ type multipleworker struct {
 	run     bool
 	ch      chan bool
 	ch2     chan bool
+	ch3     chan bool
 	API     *api.LuzhiboAPI
 	sw      *singleworker
 }
@@ -44,6 +45,7 @@ func (i *multipleworker) Start() {
 	}
 	i.run = true
 	i.ch = make(chan bool, 0)
+	i.ch3 = make(chan bool, 1)
 	go i.do()
 }
 
@@ -51,11 +53,15 @@ func (i *multipleworker) Start() {
 func (i *multipleworker) Stop() {
 	if i.run {
 		i.run = false
-		if _, r, _, _, _ := i.sw.GetTaskInfo(false); r {
-			i.sw.Stop()
+		if i.sw != nil {
+			if _, r, _, _, _ := i.sw.GetTaskInfo(false); r {
+				i.sw.Stop()
+			}
 		}
+		i.ch3 <- true
 		<-i.ch
 		close(i.ch)
+		close(i.ch3)
 	}
 }
 
@@ -106,7 +112,10 @@ func (i *multipleworker) do() {
 			break
 		}
 		if i.run {
-			time.Sleep(5 * time.Minute)
+			select {
+			case <-i.ch3:
+			case <-time.After(5 * time.Minute):
+			}
 		}
 	}
 	if !i.run {

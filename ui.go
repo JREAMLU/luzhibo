@@ -1,6 +1,7 @@
 package main
 
-const html = `<!DOCTYPE html>
+const html = `
+<!DOCTYPE html>
 
 <head>
     <meta charset="utf-8">
@@ -48,9 +49,22 @@ const html = `<!DOCTYPE html>
                     buttons += "<button onclick=\"startBtnEvt(" + (i + 1) + ")\" class=\"btn btn-success\" type=\"button\"><span class=\"glyphicon glyphicon-play\" /> 开始</button>\n"
                     buttons += "<button onclick=\"delBtnEvt(" + (i + 1) + ")\" class=\"btn btn-danger\" type=\"button\"><span class=\"glyphicon glyphicon-remove\" /> 删除</button>\n"
                 }
-                if (v.EP) {
-                    buttons += "<button onclick=\"down(" + (i + 1) + ")\" class=\"btn btn-primary\" type=\"button\"><span class=\"glyphicon glyphicon-download\" /> 下载</button>\n"
-                    buttons += "<button onclick=\"play(" + (i + 1) + ")\" class=\"btn btn-primary\" type=\"button\"><span class=\"glyphicon glyphicon-play-circle\" />  播放</button>\n"
+                if (v.Files != null) {
+                    if (v.Files.length == 1) {
+                        buttons += "<button onclick=\"down(" + (i + 1) + ",0)\" class=\"btn btn-primary\" type=\"button\"><span class=\"glyphicon glyphicon-download\" /> 下载</button>\n"
+                        buttons += "<button onclick=\"play(" + (i + 1) + ",0)\" class=\"btn btn-primary\" type=\"button\"><span class=\"glyphicon glyphicon-play-circle\" />  播放</button>\n"
+                    } else {
+                        dlBtn = "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-download\" /> 下载 <span class=\"caret\"></span></button><ul class=\"dropdown-menu\" role=\"menu\">"
+                        pyBtn = "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-play-circle\" /> 播放 <span class=\"caret\"></span></button><ul class=\"dropdown-menu\" role=\"menu\">";
+                        for (x = 0; x < v.Files.length; x++) {
+                            dlBtn += "<li onclick=\"down(" + (i + 1) + "," + (x + 1) + ")\"><button class=\"btn btn-link\"><span class=\"glyphicon glyphicon-download-alt\" /> 分段" + (x + 1) + "</a></li>"
+                            pyBtn += "<li onclick=\"play(" + (i + 1) + "," + (x + 1) + ")\"><button class=\"btn btn-link\"><span class=\"glyphicon glyphicon-play\" /> 分段" + (x + 1) + "</a></li>"
+                        }
+                        dlBtn += "</ul></div>\n"
+                        pyBtn += "</ul></div>\n"
+                        buttons += dlBtn;
+                        buttons += pyBtn;
+                    }
                 }
                 buttons += "<button onclick=\"infoBtnEvt(" + (i + 1) + ")\" class=\"btn btn-info\" type=\"button\"><span class=\"glyphicon glyphicon-option-horizontal\" /> 详情</button>\n"
                 buttons += "</th>"
@@ -123,6 +137,8 @@ const html = `<!DOCTYPE html>
         }
 
         function startBtnEvt(o) {
+            if (theTasks[o - 1].Files != null && !confirm("文件(路径)已存在,是否覆盖并继续?"))
+                return
             aj = $.ajax({ url: "/ajax?act=start&id=" + o, async: false });
             ret = aj.responseText;
             if (ret != "ok")
@@ -161,6 +177,7 @@ const html = `<!DOCTYPE html>
             $("#info_start").val(v.Run ? v.StartTime : "未开始");
             $("#info_index").val(v.Index);
             $("#info_path").val(v.Path);
+            $("#info_live").attr('hidden', "hidden");
             if (v.Live) {
                 $("#info_live").removeAttr('hidden');
                 $("#info_nick").val(i.LiveNick);
@@ -170,20 +187,26 @@ const html = `<!DOCTYPE html>
             $("#info_ui").modal('show').on("");
         }
 
-        function down(o) {
-            window.location.href = "/ajax?act=get&id=" + o;
+        function down(o, s) {
+            u = "/ajax?act=get&id=" + o;
+            if (s != 0)
+                u += "&sub=" + s;
+            window.location.href = u;
         }
 
-        function play(o) {
+        function play(o, s) {
+            u = "/ajax?act=get&id=" + o;
+            if (s != 0)
+                u += "&sub=" + s;
             var flvPlayer = flvjs.createPlayer({
-                type: 'flv',
-                url: '/ajax?act=get&id=' + o
+                type: "flv",
+                url: u
             });
             $("#player_ui").modal('show').on("hide.bs.modal", function () {
                 flvPlayer.unload();
             });
             if (flvjs.isSupported()) {
-                var videoElement = document.getElementById('videoElement');
+                var videoElement = document.getElementById("videoElement");
                 flvPlayer.attachMediaElement(videoElement);
                 flvPlayer.load();
                 flvPlayer.play();
@@ -280,7 +303,7 @@ const html = `<!DOCTYPE html>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><span class="glyphicon glyphicon-tasks" /> 播放器(按ESC快捷键退出,循环模式只能播放第一个分段)</h4>
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-play" /> 播放器(按ESC快捷键退出)</h4>
                 </div>
                 <div class="embed-responsive embed-responsive-16by9">
                     <video id="videoElement" width="640" height="360" controls="controls" />
@@ -305,7 +328,7 @@ const html = `<!DOCTYPE html>
                         <input type="text" class="form-control" id="info_start" readonly="readonly" />
                     </div>
                     <div class="form-group">
-                        <label><span class="glyphicon glyphicon-magnet"></span> 当前轮数:</label>
+                        <label><span class="glyphicon glyphicon-file"></span> 已有文件:</label>
                         <input type="text" class="form-control" id="info_index" readonly="readonly" />
                     </div>
                     <div class="form-group">

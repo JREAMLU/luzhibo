@@ -101,17 +101,24 @@ func (_ ajaxHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	case "get":
-		i := r.Form.Get("id")
+		i, s := r.Form.Get("id"), r.Form.Get("sub")
 		ii, e := strconv.Atoi(i)
 		if e == nil {
 			inf, _ := getTaskInfo(ii - 1)
+			fp := inf.Path
+			if s != "" {
+				fp += "/" + s + ".flv"
+			}
 			pp := inf.Path
 			if inf.M {
+				if s != "" {
+					pp += "_" + s
+				}
 				pp += ".flv"
 			}
 			w.Header().Add("Content-Disposition", "attachment; filename=\""+pp+"\"")
 			w.Header().Add("Content-Type", "video/x-flv")
-			getAct(inf.Path, w)
+			getAct(fp, w)
 		}
 		return
 
@@ -187,7 +194,7 @@ func startOrStopTask(i string, m bool) bool {
 }
 
 func startServer(s string) {
-	http.Handle("/", uiHandler{})
+	http.Handle("/", http.FileServer(http.Dir("./"))) // uiHandler{})
 	http.Handle("/ajax", ajaxHandler{})
 	http.ListenAndServe(s, nil)
 }
