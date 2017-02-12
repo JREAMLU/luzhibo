@@ -128,10 +128,11 @@ func (_ uiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func getFile(path string, w http.ResponseWriter) {
 	f, e := os.Open(path)
+	defer f.Close()
 	eof := false
 	if e == nil {
+		buf := make([]byte, bytes.MinRead)
 		for {
-			buf := make([]byte, bytes.MinRead)
 			t, e := f.Read(buf)
 			if e != nil {
 				if e == io.EOF {
