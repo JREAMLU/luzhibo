@@ -64,10 +64,11 @@ func (i *huya) GetLiveInfo(id string) (live LiveInfo, err error) {
 	n = doc.Find("video#html5player-video")
 	img, _ := n.Attr("poster")
 	t, _ := doc.Find("source").Attr("src")
-	reg, _ := regexp.Compile("\\d+_\\d+")
+	reg, _ := regexp.Compile("\\d+-\\d+")
 	t = reg.FindString(t)
+	t = strings.Replace(t, "-", "_", -1)
 	if t != "" {
-		video := fmt.Sprintf("http://hls.yy.com/%s_10057.flv", t)
+		video := fmt.Sprintf("http://hls.yy.com/%s_100571200.flv", t)
 		live.LiveNick = nick
 		live.LivingIMG = img
 		live.RoomDetails = details
