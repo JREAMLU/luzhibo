@@ -124,7 +124,7 @@ set GOOS=linux
 call:make
 
 cd releases
-7z a -t7z ..\releases.7z -r -mx=9 -m0=LZMA2 -ms=100m -mf=on -mhc=on -mmt=on
+..\7z a -t7z ..\releases.7z -r -mx=9 -m0=LZMA2 -ms=100m -mf=on -mhc=on -mmt=on
 echo All done.
 pause
 goto:eof
