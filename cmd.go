@@ -6,9 +6,11 @@ import (
 	"strings"
 	"time"
 	"github.com/Baozisoftware/qrcode-terminal-go"
+	"github.com/pkg/browser"
 )
 
 func cmd() {
+	fmt.Println("---录直播(Ver 1.0.1) 控制台---")
 	fmt.Println("---微信打赏---")
 	qrcodeTerminal.New().Get("https://wx.tenpay.com/f2f?t=AQAAADa%2B%2BzNyN3aCKJwsKv7EdXs%3D").Print()
 	for {
@@ -16,7 +18,8 @@ func cmd() {
 		fmt.Println("1.添加一个普通任务")
 		fmt.Println("2.添加一个循环任务")
 		fmt.Println("3.查看当前任务列表")
-		fmt.Println("4.退出程序")
+		fmt.Println("4.打开WebUI(仅部分平台适用)")
+		fmt.Println("5.退出程序")
 		fmt.Print("请输入:")
 		var o int64
 		fmt.Scanf("%d\n", &o)
@@ -28,6 +31,8 @@ func cmd() {
 		case 3:
 			show()
 		case 4:
+			openWebUI()
+		case 5:
 			return
 		default:
 			fmt.Println("输入错误,请重试!")
@@ -78,6 +83,10 @@ l1:
 			}
 		}
 	}
+}
+
+func openWebUI(){
+	browser.OpenURL("http://localhost:12216")
 }
 
 func add(x bool) {
