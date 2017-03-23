@@ -233,7 +233,7 @@ const html = `
             <h3><span class="glyphicon glyphicon-list"></span> 任务管理</h3>
             <button class="btn btn-primary" data-toggle="modal" data-target="#addTaskDialog"><span class="glyphicon glyphicon-plus"/> 添加任务...</button>
             <button class="btn btn-default" onclick="showTasks()"><span class="glyphicon glyphicon-refresh" /> 刷新列表</button>
-            <button class="btn btn-link" type="button" onclick="window.open('https://raw.githubusercontent.com/Baozisoftware/Luzhibo-go/master/releases.7z')" >下载最新版本预编译包</button>
+            <button class="btn btn-link" type="button" onclick="window.open('https://github.com/Baozisoftware/Luzhibo-go/releases/download/latest/releases.7z')" >下载最新版本预编译包</button>
             <table class="table ">
                 <thead>
                 <tr>
