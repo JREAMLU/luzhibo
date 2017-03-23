@@ -197,4 +197,5 @@ func startServer(s string) {
 	http.Handle("/", uiHandler{})
 	http.Handle("/ajax", ajaxHandler{})
 	http.ListenAndServe(s, nil)
+	panic("WebUI启动失败.")
 }

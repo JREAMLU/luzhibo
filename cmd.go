@@ -5,9 +5,12 @@ import (
 	"luzhibo/api"
 	"strings"
 	"time"
+	"github.com/Baozisoftware/qrcode-terminal-go"
 )
 
 func cmd() {
+	fmt.Println("---微信打赏---")
+	qrcodeTerminal.New().Get("https://wx.tenpay.com/f2f?t=AQAAADa%2B%2BzNyN3aCKJwsKv7EdXs%3D").Print()
 	for {
 		fmt.Println("输入数字并回车确认:")
 		fmt.Println("1.添加一个普通任务")
