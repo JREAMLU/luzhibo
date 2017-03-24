@@ -70,9 +70,9 @@ func (i *huajiao) GetLiveInfo(id string) (live LiveInfo, err error) {
 	title := feed["title"].(string)
 	url = fmt.Sprintf("http://g2.live.360.cn/liveplay?stype=flv&channel=live_huajiao_v2&bid=huajiao&sn=%s&sid=null&_rate=null&ts=null", sn)
 	tmp, err = httpGet(url)
-	tmp = tmp[0:3] + tmp[6:len(tmp)-6]
+	tmp = tmp[0:3] + tmp[6:]
 	bytes, err := base64.StdEncoding.DecodeString(tmp)
-	tmp = string(bytes) + "\"]}"
+	tmp = string(bytes)
 	json = pruseJSON(tmp)
 	video := (*json)["main"].(string)
 	live.LiveNick = nick
