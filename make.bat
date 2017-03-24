@@ -5,6 +5,7 @@ set FNAME=luzhibo
 set PNAME=%FNAME%
 set GPATH=https://github.com/Baozisoftware/Luzhibo-go.git
 set CPATH=%cd%
+set BPATH=%~dp0
 
 
 ::init
@@ -125,7 +126,7 @@ set GOOS=linux
 call:make
 
 cd releases
-..\7z a -t7z ..\releases.7z -r -mx=9 -m0=LZMA2 -ms=100m -mf=on -mhc=on -mmt=on
+%BPATH%\7z a -t7z ..\releases.7z -r -mx=9 -m0=LZMA2 -ms=100m -mf=on -mhc=on -mmt=on
 
 :done
 echo All done.
@@ -138,5 +139,5 @@ if %GOOS%==windows set TNAME=%TNAME%.exe
 set TPATH=releases\%TNAME%
 echo Building %TNAME%...
 go build -ldflags="-s -w" -o %TPATH% %PNAME%
-upx --best -q %TPATH%
+%BPATH%upx --best -q %TPATH%
 goto:eof
