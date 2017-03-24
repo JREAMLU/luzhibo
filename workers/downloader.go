@@ -5,6 +5,7 @@ import (
 	"io"
 	"luzhibo/api/getters"
 	"net/http"
+	"crypto/tls"
 )
 
 //下载器
@@ -75,7 +76,7 @@ func (i *downloader) download(url, filepath string) {
 			i.cb(ec)
 		}
 	}()
-	resp, err := http.Get(url)
+	resp, err :=httpGetResp(url)
 	if err != nil || resp.StatusCode != 200 {
 		ec = 2 //请求时错误
 		return
@@ -104,4 +105,18 @@ func (i *downloader) download(url, filepath string) {
 			return
 		}
 	}
+}
+
+func httpGetResp(url string) (resp *http.Response, err error) {
+	tr := &http.Transport{
+		TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
+		DisableCompression: true,
+	}
+	var req *http.Request
+	client := http.Client{Transport:tr}
+	req, err = http.NewRequest("GET", url, nil)
+	if err == nil {
+		resp, err = client.Do(req)
+	}
+	return
 }
