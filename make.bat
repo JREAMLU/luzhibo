@@ -136,7 +136,7 @@ goto:eof
 set TNAME=%FNAME%_%GOOS%_%GOARCH%
 if %GOOS%==windows set TNAME=%TNAME%.exe
 set TPATH=releases\%TNAME%
-echo Building %TNAME%....
+echo Building %TNAME%...
 go build -ldflags="-s -w" -o %TPATH% %PNAME%
 upx --best -q %TPATH%
 goto:eof
