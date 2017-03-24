@@ -5,7 +5,7 @@ import (
 
 )
 
-const ver  =2017032401
+const ver  =2017032402
 
 func main() {
 	s := ":12216"
