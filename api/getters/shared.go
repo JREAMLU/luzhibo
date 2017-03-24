@@ -181,4 +181,4 @@ type Getter interface {
 }
 
 //Getters 所有获取接口
-var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{},&Yi{}}
+var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{},&Yi{},&Qiedianjing{}}
