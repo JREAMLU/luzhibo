@@ -12,6 +12,7 @@ echo Initing...
 go get github.com\PuerkitoBio\goquery
 go get github.com\pkg\browser
 go get github.com\Baozisoftware\qrcode-terminal-go
+if "%1%"=="init" goto done
 
 if "%GOPATH%"=="" set GOPATH=%UserProfile%\go
 set SPATH=%GOPATH%\src\%PNAME%
@@ -125,6 +126,8 @@ call:make
 
 cd releases
 ..\7z a -t7z ..\releases.7z -r -mx=9 -m0=LZMA2 -ms=100m -mf=on -mhc=on -mmt=on
+
+:done
 echo All done.
 pause
 goto:eof
