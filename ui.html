@@ -18,11 +18,11 @@
             if ($("#addTask_pathg").attr("hidden") == "hidden") {
                 addTaskCheck();
             } else
-                doAddTask()
+                doAddTask();
             $("#processing_ui").modal('hide');
             return false;
         }
-        theTasks = null
+        theTasks = null;
         function showTasks() {
             $("#tasklist").html("");
             $("#processing_ui").modal('show');
@@ -39,7 +39,7 @@
                     t = inf.RoomTitle;
                 s = v.Run ? "<div class=\"progress progress-striped active\"><div class=\"progress-bar progress-success\" style=\"width: 100%;\"></div></div>" : "<div class=\"progress progress-striped\"><div class=\"progress-bar progress-bar-danger\" role=\"progressbar\" style=\"width: 100%;\"></div></div>";
                 m = v.M ? "循环" : "普通";
-                l = !v.Run ? "未运行" : v.TimeLong
+                l = !v.Run ? "未运行" : v.TimeLong;
                 ls = v.Live ? "<span class=\"glyphicon glyphicon-ok-circle\" />" : "<span class=\"glyphicon glyphicon-remove-circle\" />"
                 buttons = "<th>"
                 if (v.Run)
@@ -53,14 +53,14 @@
                         buttons += "<button onclick=\"down(" + (i + 1) + ",0)\" class=\"btn btn-primary\" type=\"button\"><span class=\"glyphicon glyphicon-download\" /> 下载</button>\n"
                         buttons += "<button onclick=\"play(" + (i + 1) + ",0)\" class=\"btn btn-primary\" type=\"button\"><span class=\"glyphicon glyphicon-play-circle\" />  播放</button>\n"
                     } else {
-                        dlBtn = "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-download\" /> 下载 <span class=\"caret\"></span></button><ul class=\"dropdown-menu\" role=\"menu\">"
+                        dlBtn = "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-download\" /> 下载 <span class=\"caret\"></span></button><ul class=\"dropdown-menu\" role=\"menu\">";
                         pyBtn = "<div class=\"btn-group\"><button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"glyphicon glyphicon-play-circle\" /> 播放 <span class=\"caret\"></span></button><ul class=\"dropdown-menu\" role=\"menu\">";
                         for (x = 0; x < v.Files.length; x++) {
                             dlBtn += "<li onclick=\"down(" + (i + 1) + "," + (x + 1) + ")\"><button class=\"btn btn-link\"><span class=\"glyphicon glyphicon-download-alt\" /> 分段" + (x + 1) + "</a></li>"
                             pyBtn += "<li onclick=\"play(" + (i + 1) + "," + (x + 1) + ")\"><button class=\"btn btn-link\"><span class=\"glyphicon glyphicon-play\" /> 分段" + (x + 1) + "</a></li>"
                         }
-                        dlBtn += "</ul></div>\n"
-                        pyBtn += "</ul></div>\n"
+                        dlBtn += "</ul></div>\n";
+                        pyBtn += "</ul></div>\n";
                         buttons += dlBtn;
                         buttons += pyBtn;
                     }
@@ -68,13 +68,13 @@
                 buttons += "<button onclick=\"infoBtnEvt(" + (i + 1) + ")\" class=\"btn btn-info\" type=\"button\"><span class=\"glyphicon glyphicon-option-horizontal\" /> 详情</button>\n"
                 buttons += "</th>"
                 row = "<tr>"
-                row += "<td>" + (i + 1) + "</td>"
+                row += "<td>" + (i + 1) + "</td>";
                 row += "<td><a target=\"_blank\" href=\"" + v.SiteURL + "\"  title=\"" + v.Site + "\"><img height=\"16\" width=\"16\" src=" + v.SiteIcon + " /></a></td>"
-                row += "<td>" + ls + "</td>"
-                row += "<td>" + m + "</td>"
-                row += "<td>" + s + "</td>"
-                row += "<td>" + l + "</td>"
-                row += "<td>" + t + "</td>"
+                row += "<td>" + ls + "</td>";
+                row += "<td>" + m + "</td>";
+                row += "<td>" + s + "</td>";
+                row += "<td>" + l + "</td>";
+                row += "<td>" + t + "</td>";
                 row += buttons
                 row += "</tr>"
                 rows += row;
@@ -84,6 +84,14 @@
         }
 
         $(document).ready(function () {
+            aj = $.ajax({ url: "/ajax?act=ver", async: false });
+            ret = aj.responseText;
+            arr = ret.split("|");
+            $("#tver").text("(Ver "+arr[0]+")");
+            if (arr[1]!="null") {
+                $("#uver").text("下载最新版本预编译包(Ver "+arr[1]+")");
+                $("#uver").removeAttr("hidden");
+            }
             showTasks();
         })
 
@@ -91,12 +99,12 @@
             url = $("#addTask_url").val();
             path = $("#addTask_path").val();
             if (checkPathExist(path)) {
-                alert("文件(路径)已存在,请更换.")
+                alert("文件(路径)已存在,请更换.");
                 $("#addTaskDialog").modal('show');
-                return
+                return;
             }
             m = $("#addTask_m").is(':checked');
-            r = $("#addTask_run").is(':checked')
+            r = $("#addTask_run").is(':checked');
             if (!m)
                 path += ".flv"
             aj = $.ajax({ url: "/ajax?act=add&url=" + url + "&path=" + path + "&m=" + m + "&run=" + r, async: false });
@@ -129,7 +137,7 @@
                 $("#addTask_url").attr("readonly", 'readonly');
                 $("#addTask_pathg").removeAttr("hidden");
                 $("#addTaskDialog").modal('show');
-                return
+                return;
             } else
                 alert("不存在的房间.");
             $("#addTaskDialog").modal('show');
@@ -137,7 +145,7 @@
 
         function startBtnEvt(o) {
             if (theTasks[o - 1].Files != null && !confirm("文件(路径)已存在,是否覆盖并继续?"))
-                return
+                return;
             aj = $.ajax({ url: "/ajax?act=start&id=" + o, async: false });
             ret = aj.responseText;
             if (ret != "ok")
@@ -219,7 +227,8 @@
     <div class="row-fluid ">
         <div class="span12 ">
             <div class="page-header ">
-                <h1><span class="glyphicon glyphicon-facetime-video"></span> 录直播(Ver 1.0.1)
+                <h1><span class="glyphicon glyphicon-facetime-video"></span> 录直播
+                    <small id="tver" />
                     <small>WebUI</small>
                 </h1>
             </div>
@@ -230,7 +239,7 @@
             <h3><span class="glyphicon glyphicon-list"></span> 任务管理</h3>
             <button class="btn btn-primary" data-toggle="modal" data-target="#addTaskDialog"><span class="glyphicon glyphicon-plus"/> 添加任务...</button>
             <button class="btn btn-default" onclick="showTasks()"><span class="glyphicon glyphicon-refresh" /> 刷新列表</button>
-            <button class="btn btn-link" type="button" onclick="window.open('https://github.com/Baozisoftware/Luzhibo-go/releases/download/latest/releases.7z')" >下载最新版本预编译包</button>
+            <button class="btn btn-link" id="uver" type="button" hidden="hidden" onclick="window.open('https://github.com/Baozisoftware/Luzhibo-go/releases/download/latest/releases.7z')"></button>
             <table class="table ">
                 <thead>
                 <tr>
