@@ -11,6 +11,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"crypto/tls"
+	"errors"
 )
 
 type checkRet struct {
@@ -121,7 +123,17 @@ func (_ ajaxHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			getAct(fp, w)
 		}
 		return
-
+	case "ver":data,err:=httpGet("https://raw.githubusercontent.com/Baozisoftware/Luzhibo-go/master/ver")
+		r:=strconv.Itoa(ver)+"|"
+		if err==nil{
+			if  v,_:=strconv.Atoi(data[:len(data)-1]);v>ver{
+				r+=data
+			}else {
+				r+="null"
+			}
+		}
+		w.Write([]byte(r))
+		return
 	}
 	w.Write([]byte(""))
 }
@@ -198,4 +210,28 @@ func startServer(s string) {
 	http.Handle("/ajax", ajaxHandler{})
 	http.ListenAndServe(s, nil)
 	panic("WebUI启动失败.")
+}
+
+func httpGet(url string) (data string, err error) {
+	tr := &http.Transport{
+		TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
+		DisableCompression: true,
+	}
+	var req *http.Request
+	client := http.Client{Transport:tr}
+	req, err = http.NewRequest("GET", url, nil)
+	if err == nil {
+		resp, err := client.Do(req)
+		var body []byte
+		if err == nil && resp.StatusCode==200 {
+			defer resp.Body.Close()
+			body, err = ioutil.ReadAll(resp.Body)
+			if err == nil {
+				data = string(body)
+			}
+		}else {
+			err=errors.New("resp StatusCode is not 200.")
+		}
+	}
+	return
 }

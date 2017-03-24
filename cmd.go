@@ -10,7 +10,8 @@ import (
 )
 
 func cmd() {
-	fmt.Println("---录直播(Ver 1.0.1) 控制台---")
+	t:=fmt.Sprintf("---录直播(Ver %d) 控制台---",ver)
+	fmt.Println(t)
 	fmt.Println("---微信打赏---")
 	qrcodeTerminal.New().Get("https://wx.tenpay.com/f2f?t=AQAAADa%2B%2BzNyN3aCKJwsKv7EdXs%3D").Print()
 	for {
