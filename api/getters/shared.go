@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"reflect"
 	"time"
+	"crypto/tls"
 )
 
 //实现一些通用函数/结构
@@ -35,8 +36,12 @@ func httpGetResp(url, ua string) (resp *http.Response, err error) {
 	if ua == "" {
 		ua = "User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
 	}
+	tr := &http.Transport{
+		TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
+		DisableCompression: true,
+	}
 	var req *http.Request
-	client := http.Client{}
+	client := http.Client{Transport:tr}
 	req, err = http.NewRequest("GET", url, nil)
 	if err == nil {
 		req.Header.Set("User-Agent", ua)
