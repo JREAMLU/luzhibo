@@ -7,10 +7,21 @@ import (
 	"time"
 	"github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/pkg/browser"
+	"runtime"
+	"syscall"
+	"unsafe"
 )
 
 func cmd() {
-	t:=fmt.Sprintf("---录直播(Ver %d) 控制台---",ver)
+	p:="录直播"
+	title:=fmt.Sprintf("%s - 控制台",p)
+	switch runtime.GOOS {
+		case "windows":
+			mod := syscall.NewLazyDLL("kernel32.dll")
+			proc := mod.NewProc("SetConsoleTitleW")
+			proc.Call(uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(title))))
+	}
+	t:=fmt.Sprintf("---%s (Ver %d)---",p,ver)
 	fmt.Println(t)
 	fmt.Println("---微信打赏---")
 	qrcodeTerminal.New().Get("https://wx.tenpay.com/f2f?t=AQAAADa%2B%2BzNyN3aCKJwsKv7EdXs%3D").Print()
