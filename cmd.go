@@ -15,11 +15,13 @@ import (
 func cmd() {
 	p:="录直播"
 	title:=fmt.Sprintf("%s - 控制台",p)
-	switch runtime.GOOS {
-		case "windows":
-			mod := syscall.NewLazyDLL("kernel32.dll")
-			proc := mod.NewProc("SetConsoleTitleW")
-			proc.Call(uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(title))))
+	if runtime.GOOS == "windows" {
+		mod := syscall.NewLazyDLL("kernel32.dll")
+		proc := mod.NewProc("SetConsoleTitleW")
+		i,_:=syscall.UTF16PtrFromString(title)
+		proc.Call(uintptr(unsafe.Pointer(i)))
+	}else{
+		fmt.Printf("\033]0;%s\007",title)
 	}
 	t:=fmt.Sprintf("---%s (Ver %d)---",p,ver)
 	fmt.Println(t)
