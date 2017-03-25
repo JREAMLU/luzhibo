@@ -16,7 +16,7 @@ type huajiao struct{}
 //Site 实现接口
 func (i *huajiao) Site() string { return "花椒直播" }
 
-//实现接口
+//SiteURL 实现接口
 func (i *huajiao) SiteURL() string {
 	return "http://www.huajiao.com"
 }

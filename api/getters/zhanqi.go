@@ -13,7 +13,7 @@ type zhanqi struct{}
 //Site 实现接口
 func (i *zhanqi) Site() string { return "战旗直播" }
 
-//实现接口
+//SiteURL 实现接口
 func (i *zhanqi) SiteURL() string {
 	return "http://www.zhanqi.tv"
 }

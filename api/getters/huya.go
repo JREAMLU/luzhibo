@@ -12,7 +12,7 @@ import (
 //huya 虎牙直播
 type huya struct{}
 
-//实现接口
+//SiteURL 实现接口
 func (i *huya) SiteURL() string {
 	return "http://www.huya.com"
 }
@@ -20,7 +20,6 @@ func (i *huya) SiteURL() string {
 //Site 实现接口
 func (i huya) Site() string { return "虎牙直播" }
 
-const ua = "Mozilla/5.0 (iPad; CPU OS 8_1_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B466 Safari/600.1.4"
 
 //GetRoomInfo 实现接口
 func (i *huya) GetRoomInfo(url string) (id string, live bool, err error) {
@@ -33,7 +32,7 @@ func (i *huya) GetRoomInfo(url string) (id string, live bool, err error) {
 	reg, _ := regexp.Compile("huya\\.com/(\\w+)")
 	id = reg.FindStringSubmatch(url)[1]
 	url = "http://m.huya.com/" + id
-	html, err := httpGetWithUA(url, ua)
+	html, err := httpGetWithUA(url, ipadUA)
 	if !strings.Contains(html, "找不到此页面") {
 		live = strings.Contains(html, "ISLIVE = true")
 	} else {
@@ -54,7 +53,7 @@ func (i *huya) GetLiveInfo(id string) (live LiveInfo, err error) {
 	}()
 	live = LiveInfo{RoomID: id}
 	url := "http://m.huya.com/" + id
-	resp, err := httpGetResp(url, ua)
+	resp, err := httpGetResp(url, ipadUA)
 	doc, err := goquery.NewDocumentFromResponse(resp)
 	n := doc.Find("div.live-info-desc")
 	nick := n.Find("h2").Text()

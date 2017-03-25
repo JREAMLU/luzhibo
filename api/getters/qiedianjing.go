@@ -6,19 +6,19 @@ import (
 	"strings"
 )
 
-//Qiedianjing 企鹅电竞
-type Qiedianjing struct{}
+//qiedianjing 企鹅电竞
+type qiedianjing struct{}
 
 //Site 实现接口
-func (i *Qiedianjing) Site() string { return "企鹅电竞" }
+func (i *qiedianjing) Site() string { return "企鹅电竞" }
 
-//实现接口
-func (i *Qiedianjing) SiteURL() string {
+//SiteURL 实现接口
+func (i *qiedianjing) SiteURL() string {
 	return "http://egame.qq.com"
 }
 
 //GetRoomInfo 实现接口
-func (i *Qiedianjing) GetRoomInfo(url string) (id string, live bool, err error) {
+func (i *qiedianjing) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {
 		if recover() != nil {
 			err = errors.New("fail get data")
@@ -44,7 +44,7 @@ func (i *Qiedianjing) GetRoomInfo(url string) (id string, live bool, err error) 
 }
 
 //GetLiveInfo 实现接口
-func (i *Qiedianjing) GetLiveInfo(id string) (live LiveInfo, err error) {
+func (i *qiedianjing) GetLiveInfo(id string) (live LiveInfo, err error) {
 	defer func() {
 		if recover() != nil {
 			err = errors.New("fail get data")

@@ -13,7 +13,7 @@ type douyu struct{}
 //Site 实现接口
 func (i *douyu) Site() string { return "斗鱼直播" }
 
-//实现接口
+//SiteURL 实现接口
 func (i *douyu) SiteURL() string {
 	return "http://www.douyu.com"
 }

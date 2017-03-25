@@ -13,7 +13,7 @@ type bilibili struct{}
 //Site 实现接口
 func (i *bilibili) Site() string { return "Bilibili直播" }
 
-//实现接口
+//SiteURL 实现接口
 func (i *bilibili) SiteURL() string {
 	return "http://live.bilibili.com"
 }

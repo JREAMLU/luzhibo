@@ -5,19 +5,19 @@ import (
 	"regexp"
 )
 
-//Yi 一直播
-type Yi struct{}
+//yi 一直播
+type yi struct{}
 
 //Site 实现接口
-func (i *Yi) Site() string { return "一直播" }
+func (i *yi) Site() string { return "一直播" }
 
-//实现接口
-func (i *Yi) SiteURL() string {
+//SiteURL 实现接口
+func (i *yi) SiteURL() string {
 	return "http://www.yizhibo.com"
 }
 
 //GetRoomInfo 实现接口
-func (i *Yi) GetRoomInfo(url string) (id string, live bool, err error) {
+func (i *yi) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {
 		if recover() != nil {
 			err = errors.New("fail get data")
@@ -43,7 +43,7 @@ func (i *Yi) GetRoomInfo(url string) (id string, live bool, err error) {
 }
 
 //GetLiveInfo 实现接口
-func (i *Yi) GetLiveInfo(id string) (live LiveInfo, err error) {
+func (i *yi) GetLiveInfo(id string) (live LiveInfo, err error) {
 	defer func() {
 		if recover() != nil {
 			err = errors.New("fail get data")

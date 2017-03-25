@@ -13,7 +13,7 @@ type huomao struct{}
 //Site 实现接口
 func (i *huomao) Site() string { return "火猫直播" }
 
-//实现接口
+//SiteURL 实现接口
 func (i *huomao) SiteURL() string {
 	return "http://www.huomao.com"
 }
