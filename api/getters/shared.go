@@ -181,6 +181,6 @@ type Getter interface {
 }
 
 //Getters 所有获取接口
-var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{},&yi{},&qiedianjing{}}
+var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{},&yi{},&qiedianjing{},&chushou{}}
 
 const ipadUA = "Mozilla/5.0 (iPad; CPU OS 8_1_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B466 Safari/600.1.4"
