@@ -66,7 +66,8 @@ func getGetter(url string) getters.Getter {
 		"huajiao\\.com",
 		"huomao\\.com",
 		"yizhibo\\.com",
-		"egame.qq\\.com"}
+		"egame.qq\\.com",
+		"chushou\\.tv"}
 	for i := 0; i < len(getters.Getters); i++ {
 		if ok, _ := regexp.MatchString(regs[i], url); ok {
 			return getters.Getters[i]
