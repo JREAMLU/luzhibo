@@ -8,6 +8,7 @@ import (
 )
 
 const ver  =2017032500
+const p  = "录直播"
 
 func main() {
 	s := ":12216"

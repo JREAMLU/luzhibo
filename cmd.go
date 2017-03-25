@@ -7,22 +7,12 @@ import (
 	"time"
 	"github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/pkg/browser"
-	"runtime"
-	"syscall"
-	"unsafe"
 )
 
+const title=p+" - 控制台"
+
 func cmd() {
-	p:="录直播"
-	title:=fmt.Sprintf("%s - 控制台",p)
-	if runtime.GOOS == "windows" {
-		mod := syscall.NewLazyDLL("kernel32.dll")
-		proc := mod.NewProc("SetConsoleTitleW")
-		i,_:=syscall.UTF16PtrFromString(title)
-		proc.Call(uintptr(unsafe.Pointer(i)))
-	}else{
-		fmt.Printf("\033]0;%s\007",title)
-	}
+	setConsoleTitle()
 	t:=fmt.Sprintf("---%s (Ver %d)---",p,ver)
 	fmt.Println(t)
 	fmt.Println("---微信打赏---")
