@@ -27,7 +27,7 @@ cd %CPATH%
 if exist releases rd /s /q releases
 md releases
 
-go generate
+go generate %PNAME%
 ::386:7
 set GOARCH=386
 
