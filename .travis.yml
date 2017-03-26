@@ -1,16 +1,15 @@
 language: go
 go:
     - 1.8
-before_install:
-    - go get github.com/mattn/goveralls
+before_script:
     - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
     - go get github.com/PuerkitoBio/goquery
     - go get github.com/pkg/browser
     - go get github.com/Baozisoftware/qrcode-terminal-go
-install:
-    - go get github.com/Baozisoftware/luzhibo
-before_script:
+    - go get github.com/mattn/go-isatty
 script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
-    - $HOME/gopath/bin/goveralls -service=travis-ci
+    - chmod +x make.sh
+    - make.sh
+    - ls releases
     - exit 0
