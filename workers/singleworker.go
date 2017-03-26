@@ -1,8 +1,10 @@
 package workers
 
-import "luzhibo/api"
-import "luzhibo/api/getters"
-import "errors"
+import (
+	"github.com/Baozisoftware/luzhibo/api"
+	"errors"
+	"github.com/Baozisoftware/luzhibo/api/getters"
+)
 
 //普通模式
 

@@ -3,9 +3,9 @@ package workers
 import (
 	"bytes"
 	"io"
-	"luzhibo/api/getters"
 	"net/http"
 	"crypto/tls"
+	"github.com/Baozisoftware/luzhibo/api/getters"
 )
 
 //下载器

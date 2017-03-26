@@ -1,10 +1,12 @@
 package workers
 
-import "luzhibo/api"
-import "luzhibo/api/getters"
-import "errors"
-import "fmt"
-import "time"
+import (
+	"github.com/Baozisoftware/luzhibo/api"
+	"errors"
+	"github.com/Baozisoftware/luzhibo/api/getters"
+	"fmt"
+	"time"
+)
 
 //循环模式
 

@@ -1,9 +1,9 @@
 package workers
 
 import (
-	"luzhibo/api/getters"
 	"os"
 	"path"
+	"github.com/Baozisoftware/luzhibo/api/getters"
 )
 
 //Worker 工作接口
