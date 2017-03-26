@@ -10,6 +10,6 @@ before_script:
 script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - chmod +x ./make.sh
-    - make.sh
+    - ./make.sh
     - ls releases
     - exit 0
