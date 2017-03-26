@@ -154,3 +154,5 @@ GOARCH=ppc64le
 
 GOOS=linux
 MAKE
+
+DONE
