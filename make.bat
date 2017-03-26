@@ -19,7 +19,7 @@ if "%1%"=="init" goto done
 if "%GOPATH%"=="" set GOPATH=%UserProfile%\go
 set Path=%Path%;%GOPATH%\bin
 set SPATH=%GOPATH%\src\%PNAME%
-git clone %GPATH%
+git clone %GPATH% %SPATH%
 cd %SPATH%
 git pull
 cd %CPATH%
@@ -27,7 +27,6 @@ cd %CPATH%
 if exist releases rd /s /q releases
 md releases
 
-go generate %PNAME%
 ::386:7
 set GOARCH=386
 
@@ -141,6 +140,7 @@ set TNAME=%FNAME%_%GOOS%_%GOARCH%
 if %GOOS%==windows set TNAME=%TNAME%.exe
 set TPATH=releases\%TNAME%
 echo Building %TNAME%...
+go generate %PNAME%
 go build -ldflags="-s -w" -o %TPATH% %PNAME%
 %BPATH%upx --best -q %TPATH%
 goto:eof
