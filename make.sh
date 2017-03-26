@@ -7,6 +7,8 @@ PNAME=github.com/Baozisoftware/$FNAME
 GPATH=https://github.com/Baozisoftware/luzhibo.git
 CPATH=`pwd`
 BPATH=`dirname $0`
+UPX=$BPATH/upx
+chmod +x $UPX
 
 MAKE()
 {
@@ -74,7 +76,9 @@ MAKE
 GOARCH=amd64
 
 GOOS=darwin
-MAKE
+MAKEif [ -d releases ]; then
+	rm -rf releases
+fi
 GOOS=dragonfly
 MAKE
 GOOS=freebsd
