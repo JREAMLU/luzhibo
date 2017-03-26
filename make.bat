@@ -11,9 +11,9 @@ set BPATH=%~dp0
 ::init
 echo Initing...
 go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
-go get github.com\PuerkitoBio\goquery
-go get github.com\pkg\browser
-go get github.com\Baozisoftware\qrcode-terminal-go
+go get github.com/PuerkitoBio/goquery
+go get github.com/pkg/browser
+go get github.com/Baozisoftware/qrcode-terminal-go
 if "%1%"=="init" goto done
 
 if "%GOPATH%"=="" set GOPATH=%UserProfile%\go
