@@ -76,9 +76,7 @@ MAKE
 GOARCH=amd64
 
 GOOS=darwin
-MAKEif [ -d releases ]; then
-	rm -rf releases
-fi
+MAKE
 GOOS=dragonfly
 MAKE
 GOOS=freebsd
