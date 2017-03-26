@@ -3,12 +3,11 @@ go:
     - 1.8
 before_install:
     - go get github.com/mattn/goveralls
-    - go get golang.org/x/tools/cmd/cover
-	- go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
-	- go get github.com/PuerkitoBio/goquery
-	- go get github.com/pkg/browser
-	- go get github.com/Baozisoftware/qrcode-terminal-go
-	- mv $HOME/gopath/src/github.com/Baozisoftware/Luzhibo-go $HOME/gopath/src/luzhibo
+    - go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+    - go get github.com/PuerkitoBio/goquery
+    - go get github.com/pkg/browser
+    - go get github.com/Baozisoftware/qrcode-terminal-go
+    - mv $HOME/gopath/src/github.com/Baozisoftware/Luzhibo-go $HOME/gopath/src/luzhibo
 install:
     - go build luzhibo
 before_script:
