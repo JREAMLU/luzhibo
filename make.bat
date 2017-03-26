@@ -3,7 +3,7 @@ title Auto Make
 
 set FNAME=luzhibo
 set PNAME=%FNAME%
-set GPATH=https://github.com/Baozisoftware/Luzhibo-go.git
+set GPATH=https://github.com/Baozisoftware/luzhibo.git
 set CPATH=%cd%
 set BPATH=%~dp0
 
@@ -19,7 +19,7 @@ if "%1%"=="init" goto done
 if "%GOPATH%"=="" set GOPATH=%UserProfile%\go
 set Path=%Path%;%GOPATH%\bin
 set SPATH=%GOPATH%\src\%PNAME%
-git clone %GPATH% %SPATH%
+git clone %GPATH%
 cd %SPATH%
 git pull
 cd %CPATH%
