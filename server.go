@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"luzhibo/api"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 	"crypto/tls"
 	"errors"
+	"github.com/Baozisoftware/luzhibo/api"
 )
 
 type checkRet struct {

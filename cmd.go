@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"luzhibo/api"
 	"strings"
 	"time"
 	"github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/pkg/browser"
+	"github.com/Baozisoftware/luzhibo/api"
 )
 
 const title=p+" - 控制台"

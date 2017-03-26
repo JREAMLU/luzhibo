@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"luzhibo/api"
-	"luzhibo/api/getters"
-	"luzhibo/workers"
 	"os"
 	"time"
 	"strings"
+	"github.com/Baozisoftware/luzhibo/api"
+	"github.com/Baozisoftware/luzhibo/workers"
+	"github.com/Baozisoftware/luzhibo/api/getters"
 )
 
 var tasks []task
