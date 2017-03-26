@@ -7,11 +7,10 @@ before_install:
     - go get github.com/PuerkitoBio/goquery
     - go get github.com/pkg/browser
     - go get github.com/Baozisoftware/qrcode-terminal-go
-    - mv $HOME/gopath/src/github.com/Baozisoftware/Luzhibo-go $HOME/gopath/src/luzhibo
 install:
-    - go build luzhibo
+    - go get github.com/Baozisoftware/luzhibo
 before_script:
 script:
-    - cd $HOME/gopath/src/luzhibo
+    - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - $HOME/gopath/bin/goveralls -service=travis-ci
     - exit 0
