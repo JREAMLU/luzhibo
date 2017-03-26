@@ -8,6 +8,7 @@ import (
 	"luzhibo/workers"
 	"os"
 	"time"
+	"strings"
 )
 
 var tasks []task
@@ -47,6 +48,23 @@ func addTaskEx(url, path string, t, s bool) bool {
 
 func init() {
 	tasks = make([]task, 0)
+}
+
+func addTasks(urls string) int {
+	c := 0
+	list := strings.Split(urls, "\n")
+	for _, url := range list {
+		oa := api.New(url)
+		if oa != nil {
+			i, _, e := oa.GetRoomInfo()
+			if e == nil {
+				p := fmt.Sprintf("[%s]%s_%s", oa.Site, i, time.Now().Format("20060102150405"))
+				addTask(oa, p, true, true)
+				c++
+			}
+		}
+	}
+	return c
 }
 
 func delTask(i int, f bool) bool {

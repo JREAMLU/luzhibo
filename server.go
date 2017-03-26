@@ -64,6 +64,10 @@ func (_ ajaxHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+	case "addex":
+		urls:=r.Form.Get("urls")
+		i:=addTasks(urls)
+		w.Write([]byte(strconv.Itoa(i)))
 	case "del":
 		i, d := r.Form.Get("id"), r.Form.Get("f")
 		b := d == "true"

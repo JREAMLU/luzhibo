@@ -1,9 +1,8 @@
 package main
 
-var a = ""
-
 const html = `
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html>
 <head>
     <meta charset="utf-8">
@@ -25,6 +24,27 @@ const html = `
             $("#processing_ui").modal('hide');
             return false;
         }
+
+        function addTasksAction() {
+            var urls = $("#addTask_urls").val();
+            urls = encodeURIComponent(urls);
+            if (urls == "") {
+                alert("至少输入一行地址.")
+            } else {
+                $("#processing_ui").modal('show');
+                $("#addTasksDialog").modal('hide');
+                var aj = $.ajax({url: "/ajax?act=addex&urls=" + urls, async: false});
+                var ret = aj.responseText;
+                if (ret > 0) {
+                    alert("成功添加" + ret + "条任务.");
+                } else {
+                    alert("没有成功添加任务.");
+                }
+                location.reload();
+            }
+            return false;
+        }
+
         var theTasks = null;
         function showTasks() {
             $("#tasklist").html("");
@@ -244,11 +264,22 @@ const html = `
                                 href="https://shang.qq.com/wpa/qunwpa?idkey=c5cb06c2e524eb7872f80317621bf51f9c0b1d3451451232dbe6aa3fbdbb15ff">23153821</a>
                 </h4>
             </div>
-            <h3><span class="glyphicon glyphicon-list"></span> 任务管理</h3>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#addTaskDialog"><span
-                    class="glyphicon glyphicon-plus"></span> 添加任务...
-            </button>
-            <button class="btn btn-default" onclick="showTasks()"><span class="glyphicon glyphicon-refresh"></span> 刷新列表
+            <div class="btn-group">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#addTaskDialog"><span
+                        class="glyphicon glyphicon-plus"></span> 添加任务...
+                </button>
+                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <button class="btn btn-link" data-toggle="modal" data-target="#addTasksDialog"><span
+                                class="glyphicon glyphicon-plus"></span> 批量添加...
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-default" onclick="showTasks()"><span
+                    class="glyphicon glyphicon-refresh"></span> 刷新列表
             </button>
             <button class="btn btn-link" id="uver" type="button" hidden="hidden"
                     onclick="window.open('https://github.com/Baozisoftware/Luzhibo-go/releases/download/latest/releases.7z')"></button>
@@ -288,8 +319,10 @@ const html = `
                     </div>
                     <div id="addTask_pathg" hidden="hidden">
                         <div class="form-group">
-                            <label><span class="glyphicon glyphicon-folder-open"></span> 保存路径(文件名,自动添加后缀”.flv“):</label>
-                            <label for="addTask_path"></label><input type="text" class="form-control" id="addTask_path"
+                            <label><span class="glyphicon glyphicon-folder-open"></span>
+                                保存路径(文件名,自动添加后缀”.flv“):</label>
+                            <label for="addTask_path"></label><input type="text" class="form-control"
+                                                                     id="addTask_path"
                                                                      required="required" value="#"/>
                         </div>
                         <div class="form-group">
@@ -375,6 +408,32 @@ const html = `
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<!--批量添加遮罩层-->
+<div class="modal fade" id="addTasksDialog" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form onsubmit="return addTasksAction()">
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span> 批量添加</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label><span class="glyphicon glyphicon-film"></span> 直播地址(一行一个):</label>
+                        <label for="addTask_url"></label><textarea class="form-control" id="addTask_urls"
+                                                                   rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="location.reload()"><span
+                            class="glyphicon glyphicon-remove"></span> 关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> 添加
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -7,7 +7,7 @@ import (
 
 )
 
-const ver  =2017032500
+const ver  =2017032600
 const p  = "录直播"
 
 func main() {
