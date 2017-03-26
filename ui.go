@@ -438,6 +438,19 @@ const html = `
         </div>
     </div>
 </div>
+<!--播放器遮罩层-->
+<div class="modal fade" id="player_ui" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span class="glyphicon glyphicon-play"></span> 播放器(按ESC快捷键退出)</h4>
+            </div>
+            <div class="embed-responsive embed-responsive-16by9">
+                <video id="videoElement" width="640" height="360" controls="controls"></video>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 `
