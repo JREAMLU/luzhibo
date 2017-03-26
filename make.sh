@@ -15,10 +15,14 @@ MAKE()
 	TNAME="$FNAME"_"$GOOS"_"$GOARCH"
 	if [ "$GOOS" = "windows" ]; then
 		TNAME=$TNAME.exe
+        GOOS=$GOOS GOARCH=$GOARCH go generate $PNAME
 	fi
 	TPATH=releases/$TNAME
 	echo Building $TNAME....
 	GOOS=$GOOS GOARCH=$GOARCH go build -ldflags="-s -w" -o $TPATH $PNAME
+    if [ -f "$SPATH/resource.syso" ]; then
+        rm $SPATH/resource.syso
+    fi
 	$BPATH/upx --best -q $TPATH
 	
 }
@@ -54,7 +58,6 @@ if [ -d releases ]; then
 	rm -rf releases
 fi
 mkdir releases
-go generate $PNAME
 #386:7
 GOARCH=386
 
@@ -156,3 +159,4 @@ GOOS=linux
 MAKE
 
 DONE
+

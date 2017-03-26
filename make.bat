@@ -137,10 +137,10 @@ goto:eof
 
 :make
 set TNAME=%FNAME%_%GOOS%_%GOARCH%
-if %GOOS%==windows set TNAME=%TNAME%.exe
+if %GOOS%==windows set TNAME=%TNAME%.exe && go generate %PNAME%
 set TPATH=releases\%TNAME%
 echo Building %TNAME%...
-go generate %PNAME%
 go build -ldflags="-s -w" -o %TPATH% %PNAME%
+if exist %SPATH%\resource.syso del %SPATH%\resource.syso
 %BPATH%upx --best -q %TPATH%
 goto:eof
