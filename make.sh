@@ -35,6 +35,7 @@ go get github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 go get github.com/PuerkitoBio/goquery
 go get github.com/pkg/browser
 go get github.com/Baozisoftware/qrcode-terminal-go
+go get github.com/mattn/go-isatty
 if [ "$1" = "init" ]; then
 	DONE
 fi
