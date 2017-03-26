@@ -2,9 +2,9 @@ package api
 
 import (
 	"errors"
-	"luzhibo/api/getters"
 	"regexp"
 	"strings"
+	"github.com/Baozisoftware/luzhibo/api/getters"
 )
 
 //LuzhiboAPI API object
