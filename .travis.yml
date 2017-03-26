@@ -9,6 +9,7 @@ before_script:
     - go get github.com/mattn/go-isatty
 script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
+    - ls
     - chmod +x make.sh
     - make.sh
     - ls releases
