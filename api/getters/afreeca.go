@@ -60,7 +60,7 @@ func (i *afreeca) GetLiveInfo(id string) (live LiveInfo, err error) {
 	url = fmt.Sprintf("http://sessionmanager01.afreeca.tv:6060/broad_stream_assign.html?broad_key=%s-flash-hd-rtmp", rid)
 	tmp, err = httpGet(url)
 	json = *pruseJSON(tmp)
-	video := json["view_url"].(string)
+	video := fmt.Sprint(json["view_url"])
 	live.LiveNick = nick
 	live.RoomTitle = title
 	live.RoomDetails = ""
