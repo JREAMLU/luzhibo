@@ -12,5 +12,5 @@ script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - chmod +x ./make.sh
     - ./make.sh
-    - ghr --u Baozisoftware --t $GITHUB_TOKEN --v `cat ver` --b `cat changelog` --recreate latest releases/
+    - ghr --u Baozisoftware --t $GITHUB_TOKEN --v  "Ver `cat ver`" --b `cat changelog` --recreate latest releases/
     - exit 0
