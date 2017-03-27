@@ -7,9 +7,10 @@ before_script:
     - go get github.com/pkg/browser
     - go get github.com/Baozisoftware/qrcode-terminal-go
     - go get github.com/mattn/go-isatty
+    - go get github.com/tcnksm/ghr
 script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - chmod +x ./make.sh
     - ./make.sh
-    - ls releases
+    - ghr --username Baozisoftware --token $GITHUB_TOKEN --replace latest releases/
     - exit 0
