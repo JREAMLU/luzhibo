@@ -2,7 +2,7 @@
 title Auto Make
 
 set FNAME=luzhibo
-set PNAME=github.com\Baozisoftware\%FANAME%
+set PNAME=github.com\Baozisoftware\%FNAME%
 set GPATH=https://github.com/Baozisoftware/luzhibo.git
 set CPATH=%cd%
 set BPATH=%~dp0
