@@ -8,9 +8,11 @@ before_script:
     - go get github.com/Baozisoftware/qrcode-terminal-go
     - go get github.com/mattn/go-isatty
     - go get github.com/tcnksm/ghr
+    - go get github.com/aktau/github-release
 script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - chmod +x ./make.sh
     - ./make.sh
-    - ghr --u Baozisoftware --t $GITHUB_TOKEN --b "`cat changelog`" --recreate "`cat ver`" releases/
+    - ghr --u Baozisoftware --t $GITHUB_TOKEN --b "`cat changelog`" --recreate latest releases/
+    - github-release edit --u Baozisoftware --p luzhibo --tag latest --name "Ver `cat ver`"
     - exit 0
