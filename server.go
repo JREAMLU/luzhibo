@@ -13,6 +13,8 @@ import (
 	"crypto/tls"
 	"errors"
 	"github.com/Baozisoftware/luzhibo/api"
+	"regexp"
+	"runtime"
 )
 
 type checkRet struct {
@@ -65,8 +67,8 @@ func (_ ajaxHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	case "addex":
-		urls:=r.Form.Get("urls")
-		i:=addTasks(urls)
+		urls := r.Form.Get("urls")
+		i := addTasks(urls)
 		w.Write([]byte(strconv.Itoa(i)))
 	case "del":
 		i, d := r.Form.Get("id"), r.Form.Get("f")
@@ -127,16 +129,8 @@ func (_ ajaxHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			getAct(fp, w)
 		}
 		return
-	case "ver":data,err:=httpGet("https://raw.githubusercontent.com/Baozisoftware/Luzhibo-go/master/ver")
-		r:=strconv.Itoa(ver)+"|"
-		if err==nil{
-			if  v,_:=strconv.Atoi(data[:len(data)-1]);v>ver{
-				r+=data
-			}else {
-				r+="null"
-			}
-		}
-		w.Write([]byte(r))
+	case "ver":
+		w.Write([]byte(checkUpdate()))
 		return
 	}
 	w.Write([]byte(""))
@@ -222,20 +216,39 @@ func httpGet(url string) (data string, err error) {
 		DisableCompression: true,
 	}
 	var req *http.Request
-	client := http.Client{Transport:tr}
+	client := http.Client{Transport: tr}
 	req, err = http.NewRequest("GET", url, nil)
 	if err == nil {
 		resp, err := client.Do(req)
 		var body []byte
-		if err == nil && resp.StatusCode==200 {
+		if err == nil && resp.StatusCode == 200 {
 			defer resp.Body.Close()
 			body, err = ioutil.ReadAll(resp.Body)
 			if err == nil {
 				data = string(body)
 			}
-		}else {
-			err=errors.New("resp StatusCode is not 200.")
+		} else {
+			err = errors.New("resp StatusCode is not 200.")
 		}
 	}
 	return
+}
+
+func checkUpdate() string {
+	data, err := httpGet("https://api.github.com/repos/Baozisoftware/luzhibo/releases/latest")
+	r := strconv.Itoa(ver) + "|"
+	if err == nil {
+		reg, _ := regexp.Compile("Ver (\\d{10})")
+		data = reg.FindStringSubmatch(data)[1]
+		if v, _ := strconv.Atoi(data); v > ver {
+			url := fmt.Sprintf("https://github.com/Baozisoftware/luzhibo/releases/download/latest/luzhibo_%s_%s", runtime.GOOS, runtime.GOARCH)
+			if runtime.GOOS == "windows" {
+				url += ".exe"
+			}
+			r += data + "|" + url
+		} else {
+			r += "null"
+		}
+	}
+	return r
 }

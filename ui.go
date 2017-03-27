@@ -114,9 +114,14 @@ const html = `<!DOCTYPE html>
             if (arr[1] != "null") {
                 $("#uver").text("下载最新版本预编译包(Ver " + arr[1] + ")");
                 $("#uver").removeAttr("hidden");
+                $("#uver").click(function () {
+                        window.open(arr[2], "_parent");
+                    }
+                );
             }
             showTasks();
-        });
+        })
+        ;
 
         function doAddTask() {
             var url = $("#addTask_url").val();
@@ -281,8 +286,7 @@ const html = `<!DOCTYPE html>
             <button class="btn btn-default" onclick="showTasks()"><span
                     class="glyphicon glyphicon-refresh"></span> 刷新列表
             </button>
-            <button class="btn btn-link" id="uver" type="button" hidden="hidden"
-                    onclick="window.open('https://github.com/Baozisoftware/Luzhibo-go/releases/download/latest/releases.7z')"></button>
+            <button class="btn btn-link" id="uver" type="button" hidden="hidden"></button>
             <table class="table ">
                 <thead>
                 <tr>
