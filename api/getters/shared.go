@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"time"
 	"crypto/tls"
+	"strings"
 )
 
 //实现一些通用函数/结构
@@ -48,6 +49,42 @@ func httpGetResp(url, ua string) (resp *http.Response, err error) {
 		resp, err = client.Do(req)
 	}
 	return
+}
+
+func httpPostResp(url, ua, data string) (resp *http.Response, err error) {
+	if ua == "" {
+		ua = "User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
+	}
+	tr := &http.Transport{
+		TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
+		DisableCompression: true,
+	}
+	var req *http.Request
+	client := http.Client{Transport: tr}
+	req, err = http.NewRequest("POST", url, strings.NewReader(data))
+	if err == nil {
+		req.Header.Set("User-Agent", ua)
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		resp, err = client.Do(req)
+	}
+	return
+}
+
+func httpPostWithUA(url, ua, data string) (result string, err error) {
+	resp, err := httpPostResp(url, ua, data)
+	var body []byte
+	if err == nil {
+		defer resp.Body.Close()
+		body, err = ioutil.ReadAll(resp.Body)
+		if err == nil {
+			result = string(body)
+		}
+	}
+	return
+}
+
+func httpPost(url, data string) (result string, err error) {
+	return httpPostWithUA(url, "", data)
 }
 
 func getUnixTimesTamp() int64 {
@@ -181,6 +218,6 @@ type Getter interface {
 }
 
 //Getters 所有获取接口
-var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{}, &yi{}, &qiedianjing{}, &chushou{}, &inke{}}
+var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{}, &yi{}, &qiedianjing{}, &chushou{}, &inke{}, &afreeca{}}
 
 const ipadUA = "Mozilla/5.0 (iPad; CPU OS 8_1_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B466 Safari/600.1.4"
