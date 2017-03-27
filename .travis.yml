@@ -13,6 +13,6 @@ script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - chmod +x ./make.sh
     - ./make.sh
-    - ghr --u Baozisoftware --t $GITHUB_TOKEN --recreate latest releases/
-    - github-release edit --u Baozisoftware --s $GITHUB_TOKEN --r luzhibo --tag latest --name "Ver `cat ver`" --description "`cat changelog`"
+    - ghr -u Baozisoftware -t $GITHUB_TOKEN --recreate latest releases/
+    - github-release edit -u Baozisoftware -s $GITHUB_TOKEN -r luzhibo -t latest --n "Ver `cat ver`" -d "`cat changelog`"
     - exit 0
