@@ -125,6 +125,7 @@ const html = `<!DOCTYPE html>
 
         function doAddTask() {
             var url = $("#addTask_url").val();
+            url = encodeURIComponent(url);
             var path = $("#addTask_path").val();
             if (checkPathExist(path)) {
                 alert("文件(路径)已存在,请更换.");
@@ -153,6 +154,7 @@ const html = `<!DOCTYPE html>
 
         function addTaskCheck() {
             var url = $("#addTask_url").val();
+            url = encodeURIComponent(url);
             var aj = $.ajax({url: "/ajax?act=check&url=" + url, async: false});
             var ret = aj.responseText;
             var j = JSON.parse(ret);

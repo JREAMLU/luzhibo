@@ -40,7 +40,7 @@ func (i *downloader) Start() {
 	i.run = true
 	i.ch = make(chan bool, 0)
 	i.ch2 = make(chan bool, 1)
-	if strings.Contains(i.url, "rmtp://") || strings.Contains(i.url, ".m3u8") {
+	if strings.Contains(i.url, "rtmp://") || strings.Contains(i.url, ".m3u8") {
 		go i.ffmpeg(i.url, i.filePath)
 	} else {
 		go i.http(i.url, i.filePath)
@@ -50,6 +50,7 @@ func (i *downloader) Start() {
 //Stop 实现接口
 func (i *downloader) Stop() {
 	if i.run {
+		i.ch2 <- true
 		i.run = false
 		<-i.ch
 		close(i.ch)

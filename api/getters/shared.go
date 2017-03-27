@@ -41,7 +41,7 @@ func httpGetResp(url, ua string) (resp *http.Response, err error) {
 		DisableCompression: true,
 	}
 	var req *http.Request
-	client := http.Client{Transport:tr}
+	client := http.Client{Transport: tr}
 	req, err = http.NewRequest("GET", url, nil)
 	if err == nil {
 		req.Header.Set("User-Agent", ua)
@@ -181,6 +181,6 @@ type Getter interface {
 }
 
 //Getters 所有获取接口
-var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{},&yi{},&qiedianjing{},&chushou{}}
+var Getters = []Getter{&douyu{}, &panda{}, &zhanqi{}, &longzhu{}, &huya{}, &qie{}, &bilibili{}, &quanmin{}, &huajiao{}, &huomao{}, &yi{}, &qiedianjing{}, &chushou{}, &inke{}}
 
 const ipadUA = "Mozilla/5.0 (iPad; CPU OS 8_1_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B466 Safari/600.1.4"
