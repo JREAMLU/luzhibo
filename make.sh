@@ -24,7 +24,7 @@ MAKE()
     if [ -f "$SPATH/resource.syso" ]; then
         rm $SPATH/resource.syso
     fi
-	$BPATH/upx --best -q $TPATH
+	#$BPATH/upx --best -q $TPATH
 	
 }
 
