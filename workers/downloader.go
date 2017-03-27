@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"crypto/tls"
 	"github.com/Baozisoftware/luzhibo/api/getters"
+	"os/exec"
+	"strings"
 )
 
 //下载器
@@ -16,6 +18,7 @@ type downloader struct {
 	cb       WorkCompletedCallBack
 	run      bool
 	ch       chan bool
+	ch2      chan bool
 }
 
 func newDownloader(url, filepath string, callbcak WorkCompletedCallBack) *downloader {
@@ -36,7 +39,12 @@ func (i *downloader) Start() {
 	}
 	i.run = true
 	i.ch = make(chan bool, 0)
-	go i.download(i.url, i.filePath)
+	i.ch2 = make(chan bool, 1)
+	if strings.Contains(i.url, "rmtp://") || strings.Contains(i.url, ".m3u8") {
+		go i.ffmpeg(i.url, i.filePath)
+	} else {
+		go i.http(i.url, i.filePath)
+	}
 }
 
 //Stop 实现接口
@@ -45,6 +53,7 @@ func (i *downloader) Stop() {
 		i.run = false
 		<-i.ch
 		close(i.ch)
+		close(i.ch2)
 	}
 }
 
@@ -62,7 +71,7 @@ func (i *downloader) GetTaskInfo(g bool) (int64, bool, int64, string, *getters.L
 	return 0, i.run, 0, i.filePath, nil
 }
 
-func (i *downloader) download(url, filepath string) {
+func (i *downloader) http(url, filepath string) {
 	ec := int64(0) //正常停止
 	defer func() {
 		if !i.run {
@@ -76,7 +85,7 @@ func (i *downloader) download(url, filepath string) {
 			i.cb(ec)
 		}
 	}()
-	resp, err :=httpGetResp(url)
+	resp, err := httpGetResp(url)
 	if err != nil || resp.StatusCode != 200 {
 		ec = 2 //请求时错误
 		return
@@ -113,10 +122,41 @@ func httpGetResp(url string) (resp *http.Response, err error) {
 		DisableCompression: true,
 	}
 	var req *http.Request
-	client := http.Client{Transport:tr}
+	client := http.Client{Transport: tr}
 	req, err = http.NewRequest("GET", url, nil)
 	if err == nil {
 		resp, err = client.Do(req)
 	}
 	return
+}
+
+func (i *downloader) ffmpeg(url, filepath string) {
+	ec := int64(0) //正常停止
+	defer func() {
+		if !i.run {
+			i.ch <- true
+		}
+		if !i.run {
+			ec = 1 //主动停止
+		}
+		i.run = false
+		if i.cb != nil {
+			i.cb(ec)
+		}
+	}()
+	cmd := exec.Command("ffmpeg", "-y", "-i", i.url, "-vcodec", "copy", "-acodec", "copy", i.filePath)
+	go func() {
+		if err := cmd.Start(); err != nil {
+			ec = 2 //ffmpeg启动失败
+			i.ch2 <- true
+		}
+		cmd.Wait()
+		if i.run {
+			i.ch2 <- true
+		}
+	}()
+	<-i.ch2
+	if cmd.Process != nil {
+		cmd.Process.Kill()
+	}
 }
