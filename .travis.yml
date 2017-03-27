@@ -16,3 +16,5 @@ script:
     - ghr -u Baozisoftware -t $GITHUB_TOKEN -recreate latest releases/
     - github-release edit -u Baozisoftware -s $GITHUB_TOKEN -r luzhibo -t latest -n "Ver `cat ver`" -d "`cat changelog`"
     - exit 0
+notifications:
+    email: false
