@@ -116,20 +116,22 @@ func updateTaskStatus(x int) {
 }
 
 type taskInfo struct {
-	Site      string
-	SiteIcon  string
-	SiteURL   string
-	URL       string
-	ID        string
-	Live      bool
-	M         bool
-	Run       bool
-	Files     []string
-	Path      string
-	Index     int64
-	StartTime string
-	TimeLong  string
-	LiveInfo  *getters.LiveInfo
+	Site       string
+	SiteIcon   string
+	SiteURL    string
+	URL        string
+	ID         string
+	Live       bool
+	M          bool
+	Run        bool
+	FileExt    string
+	NeedFFmpeg bool
+	Files      []string
+	Path       string
+	Index      int64
+	StartTime  string
+	TimeLong   string
+	LiveInfo   *getters.LiveInfo
 }
 
 func getTaskInfo(x int) (o *taskInfo, te int) {
@@ -144,6 +146,8 @@ func getTaskInfo(x int) (o *taskInfo, te int) {
 		o.SiteURL = v.API.SiteURL
 		o.SiteIcon = v.API.Icon
 		o.URL = v.API.URL
+		o.NeedFFmpeg = v.API.NeedFFmpeg
+		o.FileExt = v.API.FileExt
 		i, l, e := v.API.GetRoomInfo()
 		if e == nil {
 			o.ID = i

@@ -9,11 +9,11 @@ import (
 	"github.com/Baozisoftware/luzhibo/api"
 )
 
-const title=p+" - 控制台"
+const title = p + " - 控制台"
 
 func cmd() {
 	setConsoleTitle()
-	t:=fmt.Sprintf("---%s (Ver %d)---",p,ver)
+	t := fmt.Sprintf("---%s (Ver %d)---", p, ver)
 	fmt.Println(t)
 	fmt.Println("---微信打赏---")
 	qrcodeTerminal.New().Get("https://wx.tenpay.com/f2f?t=AQAAADa%2B%2BzNyN3aCKJwsKv7EdXs%3D").Print()
@@ -89,7 +89,7 @@ l1:
 	}
 }
 
-func openWebUI(){
+func openWebUI() {
 	browser.OpenURL("http://localhost:12216")
 }
 
@@ -124,9 +124,6 @@ l1:
 		goto l1
 	}
 	tp := fmt.Sprintf("[%s]%s_%s", oa.Site, id, time.Now().Format("20060102150405"))
-	if !x {
-		tp += ".flv"
-	}
 	fmt.Printf("请输入保存路径(输入r返回)[%s]:", tp)
 	fmt.Scanf("%s\n", &path)
 	if path == "r" {

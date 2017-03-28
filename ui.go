@@ -134,8 +134,6 @@ const html = `<!DOCTYPE html>
             }
             var m = $("#addTask_m").is(':checked');
             var r = $("#addTask_run").is(':checked');
-            if (!m)
-                path += ".flv";
             var aj = $.ajax({
                 url: "/ajax?act=add&url=" + url + "&path=" + path + "&m=" + m + "&run=" + r,
                 async: false
@@ -326,7 +324,7 @@ const html = `<!DOCTYPE html>
                     <div id="addTask_pathg" hidden="hidden">
                         <div class="form-group">
                             <label><span class="glyphicon glyphicon-folder-open"></span>
-                                保存路径(文件名,自动添加后缀”.flv“):</label>
+                                保存路径(文件名,自动添加后缀.):</label>
                             <label for="addTask_path"></label><input type="text" class="form-control"
                                                                      id="addTask_path"
                                                                      required="required" value="#"/>

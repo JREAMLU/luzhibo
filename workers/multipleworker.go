@@ -1,10 +1,10 @@
 package workers
 
 import (
-	"github.com/Baozisoftware/luzhibo/api"
 	"errors"
-	"github.com/Baozisoftware/luzhibo/api/getters"
 	"fmt"
+	"github.com/Baozisoftware/luzhibo/api"
+	"github.com/Baozisoftware/luzhibo/api/getters"
 	"time"
 )
 
@@ -94,7 +94,7 @@ func (i *multipleworker) do() {
 	for i.run {
 		i.ch2 = make(chan bool, 0)
 		i.index++
-		fn := fmt.Sprintf("%s/%d.flv", i.dirPath, i.index)
+		fn := fmt.Sprintf("%s/%d", i.dirPath, i.index)
 		r, err := NewSingleWorker(i.API, fn, func(x int64) {
 			ec = x
 			i.ch2 <- true

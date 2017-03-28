@@ -115,17 +115,17 @@ func (_ ajaxHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			inf, _ := getTaskInfo(ii - 1)
 			fp := inf.Path
 			if s != "" {
-				fp += "/" + s + ".flv"
+				fp += "/" + s + "." + inf.FileExt
 			}
 			pp := inf.Path
 			if inf.M {
 				if s != "" {
 					pp += "_" + s
 				}
-				pp += ".flv"
+				pp += "." + inf.FileExt
 			}
 			w.Header().Add("Content-Disposition", "attachment; filename=\""+pp+"\"")
-			w.Header().Add("Content-Type", "video/x-flv")
+			w.Header().Add("Content-Type", "video/x-"+inf.FileExt)
 			getAct(fp, w)
 		}
 		return
