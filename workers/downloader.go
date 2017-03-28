@@ -145,6 +145,7 @@ func (i *downloader) ffmpeg(url, filepath string) {
 			i.cb(ec)
 		}
 	}()
+
 	cmd := exec.Command("ffmpeg", "-y", "-i", i.url, "-vcodec", "copy", "-acodec", "copy", i.filePath)
 	go func() {
 		if err := cmd.Start(); err != nil {

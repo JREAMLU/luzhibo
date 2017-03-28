@@ -56,16 +56,39 @@ func (i *afreeca) GetLiveInfo(id string) (live LiveInfo, err error) {
 	json := *(pruseJSON(tmp).jToken("CHANNEL"))
 	nick := fmt.Sprint(json["BJNICK"])
 	title := fmt.Sprint(json["TITLE"])
+	stpt := fmt.Sprint(json["STPT"])
 	img := fmt.Sprintf("http://liveimg.afreecatv.com/%s.gif", rid)
-	url = fmt.Sprintf("http://sessionmanager01.afreeca.tv:6060/broad_stream_assign.html?broad_key=%s-flash-hd-rtmp", rid)
+	if stpt == "RTMP" {
+		url = fmt.Sprintf("http://sessionmanager01.afreeca.tv:6060/broad_stream_assign.html?return_type=gs_cdn&broad_key=%s-flash-hd-rtmp", rid)
+	} else {
+		url = fmt.Sprintf("http://resourcemanager.afreeca.tv:9090/broad_stream_assign.html?return_type=gs_cdn&broad_key=%s-flash-hd-hls", rid)
+	}
 	tmp, err = httpGet(url)
 	json = *pruseJSON(tmp)
 	video := fmt.Sprint(json["view_url"])
+	if stpt == "HLS" {
+		tmp, err = httpPost("http://live.afreecatv.com:8057/afreeca/player_live_api.php", "type=pwd&bno="+rid)
+		json = *(pruseJSON(tmp).jToken("CHANNEL"))
+		aid := fmt.Sprint(json["AID"])
+		video += "?aid=" + aid
+	} else {
+		reg, _ := regexp.Compile("rtmp://g7\\.\\w+")
+		if reg.FindString(video) != "" {
+			reg, _ := regexp.Compile("rtmp://([\\w\\.]+)/(\\S+)")
+			l := reg.FindStringSubmatch(video)
+			host := l[1]
+			path := l[2]
+			host = strings.Join(strings.Split(host, ".")[2:], ".")
+			host = strings.Split(path, "/")[0] + "." + host
+			video = fmt.Sprintf("rtmp://%s/%s", host, path)
+		}
+	}
 	live.LiveNick = nick
 	live.RoomTitle = title
 	live.RoomDetails = ""
 	live.LivingIMG = img
 	live.VideoURL = video
+
 	if video == "" {
 		err = errors.New("fail get data")
 	}
