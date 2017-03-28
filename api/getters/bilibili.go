@@ -18,6 +18,21 @@ func (i *bilibili) SiteURL() string {
 	return "http://live.bilibili.com"
 }
 
+//SiteIcon 实现接口
+func (i *bilibili) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *bilibili) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *bilibili) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *bilibili) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

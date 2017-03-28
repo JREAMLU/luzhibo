@@ -16,6 +16,21 @@ func (i *yi) SiteURL() string {
 	return "http://www.yizhibo.com"
 }
 
+//SiteIcon 实现接口
+func (i *yi) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *yi) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *yi) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *yi) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

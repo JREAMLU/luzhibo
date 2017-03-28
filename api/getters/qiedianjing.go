@@ -17,6 +17,21 @@ func (i *qiedianjing) SiteURL() string {
 	return "http://egame.qq.com"
 }
 
+//SiteIcon 实现接口
+func (i *qiedianjing) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *qiedianjing) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *qiedianjing) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *qiedianjing) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

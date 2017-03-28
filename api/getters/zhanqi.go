@@ -18,6 +18,21 @@ func (i *zhanqi) SiteURL() string {
 	return "http://www.zhanqi.tv"
 }
 
+//SiteIcon 实现接口
+func (i *zhanqi) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *zhanqi) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *zhanqi) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *zhanqi) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

@@ -19,6 +19,21 @@ func (i *quanmin) SiteURL() string {
 	return "http://www.quanmin.tv"
 }
 
+//SiteIcon 实现接口
+func (i *quanmin) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *quanmin) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *quanmin) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *quanmin) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

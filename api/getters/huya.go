@@ -20,6 +20,20 @@ func (i *huya) SiteURL() string {
 //Site 实现接口
 func (i huya) Site() string { return "虎牙直播" }
 
+//SiteIcon 实现接口
+func (i *huya) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *huya) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *huya) NeedFFMpeg() bool {
+	return false
+}
 
 //GetRoomInfo 实现接口
 func (i *huya) GetRoomInfo(url string) (id string, live bool, err error) {

@@ -18,6 +18,21 @@ func (i *longzhu) SiteURL() string {
 	return "http://www.longzhu.com"
 }
 
+//SiteIcon 实现接口
+func (i *longzhu) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *longzhu) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *longzhu) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *longzhu) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

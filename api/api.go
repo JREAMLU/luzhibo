@@ -9,12 +9,14 @@ import (
 
 //LuzhiboAPI API object
 type LuzhiboAPI struct {
-	id      string
-	URL     string
-	g       getters.Getter
-	Site    string
-	SiteURL string
-	Icon    string
+	id         string
+	URL        string
+	g          getters.Getter
+	Site       string
+	SiteURL    string
+	Icon       string
+	FileExt    string
+	NeedFFmpeg bool
 }
 
 //New 使用网址创建一个实例
@@ -26,7 +28,9 @@ func New(url string) *LuzhiboAPI {
 		i.URL = url
 		i.Site = g.Site()
 		i.SiteURL = g.SiteURL()
-		i.Icon = i.SiteURL + "/favicon.ico"
+		i.Icon = g.SiteIcon()
+		i.FileExt = g.FileExt()
+		i.NeedFFmpeg = g.NeedFFMpeg()
 		return i
 	}
 	return nil

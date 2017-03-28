@@ -21,6 +21,21 @@ func (i *huajiao) SiteURL() string {
 	return "http://www.huajiao.com"
 }
 
+//SiteIcon 实现接口
+func (i *huajiao) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *huajiao) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *huajiao) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *huajiao) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

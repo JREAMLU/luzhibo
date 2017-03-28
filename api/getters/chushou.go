@@ -20,6 +20,21 @@ func (i *chushou) SiteURL() string {
 //Site 实现接口
 func (i chushou) Site() string { return "触手直播" }
 
+//SiteIcon 实现接口
+func (i *chushou) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *chushou) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *chushou) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *chushou) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

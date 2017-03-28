@@ -215,6 +215,9 @@ type Getter interface {
 	GetLiveInfo(string) (LiveInfo, error)     //获取直播信息,参数为房间号,返回直播信息
 	Site() string                             //返回平台名称
 	SiteURL() string                          //返回平台首页
+	SiteIcon() string                         //网站图标
+	NeedFFMpeg() bool                         //是否需要FFmpeg
+	FileExt() string                          //文件扩展名
 }
 
 //Getters 所有获取接口

@@ -18,6 +18,21 @@ func (i *huomao) SiteURL() string {
 	return "http://www.huomao.com"
 }
 
+//SiteIcon 实现接口
+func (i *huomao) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *huomao) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *huomao) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *huomao) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

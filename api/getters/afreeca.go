@@ -18,6 +18,21 @@ func (i *afreeca) SiteURL() string {
 	return "http://www.afreecatv.com"
 }
 
+//SiteIcon 实现接口
+func (i *afreeca) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *afreeca) FileExt() string {
+	return "ts"
+}
+
+//NeedFFMpeg 实现接口
+func (i *afreeca) NeedFFMpeg() bool {
+	return true
+}
+
 //GetRoomInfo 实现接口
 func (i *afreeca) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

@@ -18,6 +18,21 @@ func (i *panda) SiteURL() string {
 	return "http://www.panda.tv"
 }
 
+//SiteIcon 实现接口
+func (i *panda) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *panda) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *panda) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *panda) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

@@ -18,6 +18,21 @@ func (i *inke) SiteURL() string {
 	return "http://www.inke.cn"
 }
 
+//SiteIcon 实现接口
+func (i *inke) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *inke) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *inke) NeedFFMpeg() bool {
+	return true
+}
+
 //GetRoomInfo 实现接口
 func (i *inke) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {

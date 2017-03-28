@@ -18,6 +18,21 @@ func (i *qie) SiteURL() string {
 	return "http://live.qq.com"
 }
 
+//SiteIcon 实现接口
+func (i *qie) SiteIcon() string {
+	return i.SiteURL() + "/favicon.ico"
+}
+
+//FileExt 实现接口
+func (i *qie) FileExt() string {
+	return "flv"
+}
+
+//NeedFFMpeg 实现接口
+func (i *qie) NeedFFMpeg() bool {
+	return false
+}
+
 //GetRoomInfo 实现接口
 func (i *qie) GetRoomInfo(url string) (id string, live bool, err error) {
 	defer func() {
