@@ -8,6 +8,8 @@ import (
 	"github.com/Baozisoftware/luzhibo/api/getters"
 	"os/exec"
 	"strings"
+	"path"
+	"os"
 )
 
 //下载器
@@ -146,10 +148,15 @@ func (i *downloader) ffmpeg(url, filepath string) {
 		}
 	}()
 
+	err := os.MkdirAll(path.Dir(filepath), os.ModePerm)
+	if err != nil {
+		ec = 3
+		return
+	}
 	cmd := exec.Command("ffmpeg", "-y", "-i", i.url, "-vcodec", "copy", "-acodec", "copy", i.filePath)
 	go func() {
 		if err := cmd.Start(); err != nil {
-			ec = 2 //ffmpeg启动失败
+			ec = 6 //ffmpeg启动失败
 			i.ch2 <- true
 		}
 		cmd.Wait()
