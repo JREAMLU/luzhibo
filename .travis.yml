@@ -15,7 +15,7 @@ script:
     - ./make.sh
     - ghr -u Baozisoftware -t $GITHUB_TOKEN -replace latest releases/
     - github-release edit -u Baozisoftware -s $GITHUB_TOKEN -r luzhibo -t latest -n "Ver `cat ver`" -d "`cat changelog`"
-    - curl -H "Content-Type: application/json"
+    - curl -H "Content-Type: application/json" -X https://registry.hub.docker.com/u/$DOCKER_USER/DOCKER_REPO/trigger/$DOCKER_TRIGGER_TOKEN/
     - exit 0
 notifications:
     email: false
