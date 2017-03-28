@@ -12,11 +12,9 @@ before_script:
 script:
     - cd $HOME/gopath/src/github.com/Baozisoftware/luzhibo
     - chmod +x ./make.sh
-    - chmod +x ./docker.sh
     - ./make.sh
     - ghr -u Baozisoftware -t $GITHUB_TOKEN -replace latest releases/
     - github-release edit -u Baozisoftware -s $GITHUB_TOKEN -r luzhibo -t latest -n "Ver `cat ver`" -d "`cat changelog`"
-    - ./docker.sh
     - exit 0
 notifications:
     email: false
