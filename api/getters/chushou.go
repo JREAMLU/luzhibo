@@ -74,10 +74,7 @@ func (i *chushou) GetLiveInfo(id string) (live LiveInfo, err error) {
 	details := doc.Find("span.announcement_text").Text()
 	img, _ := doc.Find("video.videoBlock").Attr("poster")
 	t, _ := doc.Find("video.videoBlock").Attr("src")
-	u, err := nurl.Parse(t)
-	if err != nil {
-		return
-	}
+	u, _ := nurl.Parse(t)
 	hostname := u.Hostname()
 	reg, _ := regexp.Compile("[a-f0-9]{32}")
 	t = reg.FindString(t)
