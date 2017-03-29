@@ -3,6 +3,7 @@ package getters
 import (
 	"errors"
 	"fmt"
+	nurl "net/url"
 	"regexp"
 	"strings"
 
@@ -45,7 +46,7 @@ func (i *chushou) GetRoomInfo(url string) (id string, live bool, err error) {
 	url = strings.ToLower(url)
 	reg, _ := regexp.Compile("chushou\\.tv/room/(\\d+)\\.htm")
 	id = reg.FindStringSubmatch(url)[1]
-	url = fmt.Sprintf("https://chushou.tv/room/m-%s.htm",id)
+	url = fmt.Sprintf("https://chushou.tv/room/m-%s.htm", id)
 	html, err := httpGetWithUA(url, ipadUA)
 	if !strings.Contains(html, "访问失败啦") {
 		live = !strings.Contains(html, "playUrl=\"\"")
@@ -66,21 +67,26 @@ func (i *chushou) GetLiveInfo(id string) (live LiveInfo, err error) {
 		}
 	}()
 	live = LiveInfo{RoomID: id}
-	url := fmt.Sprintf("https://chushou.tv/room/m-%s.htm",id)
+	url := fmt.Sprintf("https://chushou.tv/room/m-%s.htm", id)
 	resp, _ := httpGetResp(url, ipadUA)
 	doc, _ := goquery.NewDocumentFromResponse(resp)
 	nick := doc.Find("span.mzb_nickname").Text()
 	details := doc.Find("span.announcement_text").Text()
 	img, _ := doc.Find("video.videoBlock").Attr("poster")
 	t, _ := doc.Find("video.videoBlock").Attr("src")
+	u, err := nurl.Parse(t)
+	if err != nil {
+		return
+	}
+	hostname := u.Hostname()
 	reg, _ := regexp.Compile("[a-f0-9]{32}")
 	t = reg.FindString(t)
 	if t != "" {
-		url=fmt.Sprintf("https://chushou.tv/room/%s.htm",id)
-		resp, _=httpGetResp(url, "")
+		url = fmt.Sprintf("https://chushou.tv/room/%s.htm", id)
+		resp, _ = httpGetResp(url, "")
 		doc, _ = goquery.NewDocumentFromResponse(resp)
-		title :=doc.Find("p.zb_player_gamedesc").Text()
-		video := fmt.Sprintf("http://hdl6.kascend.com/chushou_live/%s.flv", t)
+		title := doc.Find("p.zb_player_gamedesc").Text()
+		video := fmt.Sprintf("http://%s/chushou_live/%s.flv", hostname, t)
 		live.LiveNick = nick
 		live.LivingIMG = img
 		live.RoomDetails = details

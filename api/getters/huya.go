@@ -80,6 +80,12 @@ func (i *huya) GetLiveInfo(id string) (live LiveInfo, err error) {
 	reg, _ := regexp.Compile("\\d+-\\d+")
 	t = reg.FindString(t)
 	t = strings.Replace(t, "-", "_", -1)
+	if t == "" {
+		t, _ = doc.Find("source").Attr("src")
+		reg, _ := regexp.Compile("\\d+_\\d+")
+		t = reg.FindString(t)
+	}
+
 	if t != "" {
 		video := fmt.Sprintf("http://hls.yy.com/%s_100571200.flv", t)
 		live.LiveNick = nick
