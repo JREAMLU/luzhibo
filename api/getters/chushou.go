@@ -76,6 +76,12 @@ func (i *chushou) GetLiveInfo(id string) (live LiveInfo, err error) {
 	t, _ := doc.Find("video.videoBlock").Attr("src")
 	u, _ := nurl.Parse(t)
 	hostname := u.Hostname()
+	switch hostname {
+	case "uclive-hls.kascend.com":
+		hostname = "uclive-hls.kascend.com"
+	case "hls6.kascend.com":
+		hostname = "hdl6.kascend.com"
+	}
 	reg, _ := regexp.Compile("[a-f0-9]{32}")
 	t = reg.FindString(t)
 	if t != "" {
